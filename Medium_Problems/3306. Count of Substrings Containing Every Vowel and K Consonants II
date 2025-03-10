@@ -1,0 +1,25 @@
+class Solution(object): 
+    def countOfSubstrings(self, w, k):
+        def v(c):
+            return c in 'aeiou'
+        
+        def cSub(w, k):
+            n, a, c, l, vMap = len(w), 0, 0, 0, {}
+            for r in range(n):
+                if v(w[r]):
+                    vMap[w[r]] = vMap.get(w[r], 0) + 1
+                else:
+                    c += 1
+                
+                while len(vMap) == 5 and c >= k:
+                    a += n - r
+                    if v(w[l]):
+                        vMap[w[l]] -= 1
+                        if vMap[w[l]] == 0:
+                            del vMap[w[l]]
+                    else:
+                        c -= 1
+                    l += 1
+            return a
+        
+        return cSub(w, k) - cSub(w, k + 1)
